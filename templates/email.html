@@ -1,0 +1,54 @@
+{% extends 'commen.html' %}
+{% block commen %}
+    <style>
+    th{
+            color: #0c5460;
+            font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+        }
+        td{
+            color: darkblue;
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+        }
+        </style>
+{% include 'menu.html' %}
+       <br>
+        <h1 style="text-align: center;font-family: 'Agency FB';color:darkorchid;font-size: 35px"><b>Check CSV Data For EMAIL</b></h1>
+    <form action="{% url 'email' %}" method="post">
+    {% csrf_token %}
+    <table class="table">
+      <tbody>
+ <thead>
+    <tr>
+      <th scope="col">Sr.No</th>
+      <th scope="col">Message</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Country</th>
+      <th scope="col">Schedule_On</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  {% for x in rows %}
+  <tr>
+      <td scope="col">{{ forloop.counter }}</td>
+      <td scope="col">{{ x.Message }}</td>
+      <td scope="col">{{ x.Email }}</td>
+      <td scope="col">{{ x.Phone }}</td>
+      <td scope="col">{{ x.Country }}</td>
+      <td scope="col">{{ x.Schedule }}</td>
+      <td scope="col"><a href="{% url 'delete' %}?email={{ x.Email }}">Yes</a></td>
+  </tr>
+  {% endfor %}
+        </tbody>
+    </table>
+     <div align="center">
+    {% for x in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Message:</strong> {{ x }}.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+        {% endfor %}
+    <button type="submit" class="btn btn-primary">Send Email</button>
+    </div>
+    </form>
+{% endblock %}
